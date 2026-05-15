@@ -1,0 +1,19 @@
+CREATE DATABASE IF NOT EXISTS linkedin;
+USE DATABASE linkedin;
+USE SCHEMA public;
+
+CREATE OR REPLACE STAGE linkedin_stage
+  URL = 's3://snowflake-lab-bucket/'
+  FILE_FORMAT = (TYPE = 'CSV');
+
+CREATE OR REPLACE FILE FORMAT csv_format
+  TYPE = 'CSV'
+  FIELD_OPTIONALLY_ENCLOSED_BY = '"'
+  SKIP_HEADER = 1
+  NULL_IF = ('', 'NULL', 'null')
+  EMPTY_FIELD_AS_NULL = TRUE
+  TRIM_SPACE = TRUE;
+
+CREATE OR REPLACE FILE FORMAT json_format
+  TYPE = 'JSON'
+  STRIP_OUTER_ARRAY = TRUE;
